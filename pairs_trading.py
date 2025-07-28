@@ -1,4 +1,3 @@
-import pandas as pd
 from backtest import *
 from plot_results import *
 from data import fetch_data
