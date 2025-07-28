@@ -1,6 +1,7 @@
+from datetime import date, timedelta
 import requests
 import pandas as pd
-from config import ALPACA_API_KEY, ALPACA_SECRET_KEY, ALPACA_BASE_URL
+from data.config import ALPACA_API_KEY, ALPACA_SECRET_KEY, ALPACA_BASE_URL, ALPACA_DATA_URL
 
 HEADERS = {
     "APCA-API-KEY-ID": ALPACA_API_KEY,
@@ -8,7 +9,7 @@ HEADERS = {
 }
 
 def get_bars(symbol, start, end, timeframe="1Day"):
-    url = f"{ALPACA_BASE_URL}/stocks/{symbol}/bars"
+    url = f"{ALPACA_DATA_URL}/stocks/{symbol}/bars"
     params = {
         "start": start,
         "end": end,
@@ -27,13 +28,9 @@ def get_bars(symbol, start, end, timeframe="1Day"):
     df.set_index("t", inplace=True)
     return df["c"]  # Return the closing prices only
 
-def fetch_pair_data(ticker1, ticker2, start="2023-01-01", end="2024-01-01"):
+yesterday_date = date.today() - timedelta(days=1)
+def fetch_pair_data(ticker1, ticker2, start="2023-01-01", end=(yesterday_date.strftime("%Y-%m-%d"))):
     series1 = get_bars(ticker1, start, end)
     series2 = get_bars(ticker2, start, end)
     df = pd.DataFrame({ticker1: series1, ticker2: series2}).dropna()
     return df
-
-if __name__ == "__main__":
-    df = fetch_pair_data("KO", "PEP")
-    df.to_csv("data/raw_data.csv")
-    print(df.head())
