@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from data import fetch_data
+from utils.pairs_tester import *
+import io, base64
 
 def plot_results(cum_pnl, zscore, signals):
     fig, ax = plt.subplots(2, 1, figsize=(12, 8))
@@ -43,7 +45,7 @@ def plot_assets(tickers: list):
     plt.tight_layout()
     plt.show()# Scatter plot
 
-def plot_heatmap(matrix, title, cmap="coolwarm", annot=True):
+def plot_heatmap(matrix, title, cmap="coolwarm", annot=True, show=True):
     fig, ax = plt.subplots(figsize=(16, 12))
     cax = ax.imshow(matrix, cmap=cmap, interpolation='nearest')
 
@@ -62,4 +64,27 @@ def plot_heatmap(matrix, title, cmap="coolwarm", annot=True):
     ax.set_title(title)
     fig.colorbar(cax)
     plt.tight_layout()
-    plt.show()
+    if show: plt.show()
+    else: return fig
+
+def plot_correlation_heatmap(tickers: list):
+    correlation_matrix = compute_correlation_matrix(tickers[:40])
+    return plot_heatmap(correlation_matrix, "Correlation matrix for 100 stocks", show=False)
+
+def plot_cointegration_heatmap(tickers: list):
+    cointegration_matrix = compute_cointegration_matrix(tickers[:40])
+    return plot_heatmap(cointegration_matrix, "Cointegration p-values for 100 stocks", show=False)
+
+# analysis/heatmap.py
+def fig_to_base64(fig):
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png", bbox_inches="tight")
+    buf.seek(0)
+    return base64.b64encode(buf.read()).decode()
+
+def generate_heatmaps(tickers):
+    df = fetch_multiple_data(tickers)
+    corr_fig = plot_correlation_heatmap(df)
+    coin_fig = plot_cointegration_heatmap(df)
+
+    return fig_to_base64(corr_fig), fig_to_base64(coin_fig)

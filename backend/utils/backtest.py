@@ -1,4 +1,6 @@
 import pandas as pd
+from data import fetch_data
+from utils.plot_results import *
 
 def calculate_zscore(spread):
     mean = spread.rolling(window=30).mean()
@@ -31,3 +33,16 @@ def backtest(df, signals, correlation = 1):
     cum_pnl = pnl.cumsum()
 
     return cum_pnl, pnl
+
+def trade_pair():
+    stock_ticker1 = input("Enter first stock symbol --> ")
+    stock_ticker2 = input("Enter second stock symbol --> ")
+    df = fetch_data.fetch_pair_data(stock_ticker1, stock_ticker2)
+    df.to_csv("data/raw-data.csv")
+
+    spread = df[stock_ticker1] - df[stock_ticker2]
+    correlation = df[stock_ticker1].corr(df[stock_ticker2])
+    zscore = calculate_zscore(spread)
+    signals = generate_signals(zscore)
+    cum_pnl, pnl = backtest(df, signals, correlation=np.sign(correlation))
+    plot_results(cum_pnl, zscore, signals)
