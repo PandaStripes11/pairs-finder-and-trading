@@ -1,0 +1,73 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #121212;
+  color: #f0e8ff;
+}
+
+.app {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.title {
+  font-size: 2rem;
+  color: #f7c0ff;
+  text-shadow: 0 0 10px #d067ff;
+  text-align: center;
+}
+
+.asset-form {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.asset-input {
+  flex: 1;
+  padding: 0.8rem;
+  background: #2a2a2a;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.submit-button {
+  padding: 0.8rem 1.2rem;
+  background: #c678dd;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 8px #b56eff;
+}
+
+.heatmap-container {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.heatmap {
+  max-width: 100%;
+  border: 2px solid #444;
+  margin: 1rem 0;
+  border-radius: 8px;
+}
+
+.note {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.pair-details {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.pnl-plot {
+  max-width: 100%;
+  border: 2px solid #444;
+  border-radius: 8px;
+}
