@@ -10,10 +10,19 @@ def trade_pair():
     df.to_csv("data/raw-data.csv")
 
     spread = df[stock_ticker1] - df[stock_ticker2]
+    correlation = df[stock_ticker1].corr(df[stock_ticker2])
     zscore = calculate_zscore(spread)
     signals = generate_signals(zscore)
-    cum_pnl, pnl = backtest(df, signals)
+    cum_pnl, pnl = backtest(df, signals, correlation=np.sign(correlation))
     plot_results(cum_pnl, zscore, signals)
+
+def plot_correlation(tickers: list):
+    correlation_matrix = compute_correlation_matrix(tickers[:40])
+    plot_heatmap(correlation_matrix, "Correlation matrix for 100 stocks")
+
+def plot_cointegration(tickers: list):
+    cointegration_matrix = compute_cointegration_matrix(tickers[:40])
+    plot_heatmap(cointegration_matrix, "Cointegration p-values for 100 stocks")
 
 if __name__ == "__main__":
     tickers = [
@@ -28,13 +37,6 @@ if __name__ == "__main__":
         "C", "ABBV", "MRK", "Z", "RDFN", "TDOC", "AMWL", "TSLA", "NIO", "BP",
         "SHEL", "CI", "CNC", "FDX", "UPS", "CHRW", "EXPD"
     ]
-    correlation_matrix = compute_correlation_matrix(tickers[:40])
-    cointegration_matrix = compute_cointegration_matrix(tickers[:40])
-
-    plot_heatmap(correlation_matrix, "Correlation matrix for 100 stocks")
-    plot_heatmap(cointegration_matrix, "Cointegration p-values for 100 stocks")
-
-    print(find_cointegrated_pairs(tickers))
 
     continue_pairs_trade = True
     while continue_pairs_trade:

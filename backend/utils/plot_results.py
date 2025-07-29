@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from data import fetch_data
 
 def plot_results(cum_pnl, zscore, signals):
     fig, ax = plt.subplots(2, 1, figsize=(12, 8))
@@ -20,6 +21,27 @@ def plot_results(cum_pnl, zscore, signals):
     fig.savefig("results/plots/PnL.png")
 
     plt.close()
+
+def plot_assets(tickers: list):
+    # Assume you have a DataFrame with aligned prices:
+    # e.g., from Alpaca or any source, with columns 'KO' and 'PEP'
+    df = fetch_data.fetch_multiple_data(tickers)
+
+    # Normalize and plot both stock price series
+    df_norm = df / df.iloc[0]  # Divide each column by its first value
+
+    plt.figure(figsize=(10, 6))
+    for index_label in df_norm.columns[1:]:
+        plt.plot(df_norm.index, df_norm[index_label], label=f'{index_label} (Normalized)', linewidth=2)
+
+    # Formatting
+    plt.title(f"{len(df.index)} Asset Prices Over Time")
+    plt.xlabel("Date")
+    plt.ylabel("Price")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()# Scatter plot
 
 def plot_heatmap(matrix, title, cmap="coolwarm", annot=True):
     fig, ax = plt.subplots(figsize=(16, 12))

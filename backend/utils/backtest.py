@@ -23,11 +23,11 @@ def generate_signals(zscore, entry_threshold=1.0, exit_threshold=0.0):
         signals[i] = position
     return signals
 
-def backtest(df, signals):
+def backtest(df, signals, correlation = 1):
     returns = df.pct_change().dropna()
     position = signals.shift().fillna(0)
 
-    pnl = position * (returns.iloc[:, 0] - returns.iloc[:, 1])
+    pnl = correlation * position * (returns.iloc[:, 0] - returns.iloc[:, 1])
     cum_pnl = pnl.cumsum()
 
     return cum_pnl, pnl
