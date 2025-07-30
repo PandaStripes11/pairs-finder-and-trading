@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
 export function PairDetails({ pair }) {
+  const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const BASE_URL = process.env.REACT_APP_BACKEND_API_BASE_URL;
 
   useEffect(() => {
+    if (!pair) {
+      return;
+    }
+
     const fetchResults = async () => {
-      const res = await fetch("http://localhost:8000/api/backtest", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pair }),
-      });
+      setLoading(true);
+      const res = await fetch(`${BASE_URL}/backtest?tickers=${pair.join(",")}`);
       const data = await res.json();
       setResult(data);
+      setLoading(false);
     };
     fetchResults();
   }, [pair]);
@@ -19,14 +24,23 @@ export function PairDetails({ pair }) {
   return (
     <div className="pair-details">
       <h2>Backtest Results for {pair.join(" & ")}</h2>
-      {result ? (
+      {!loading && result ? (
         <img
-          src={`data:image/png;base64,${result.pnl_plot}`}
+          src={`data:image/png;base64,${result["asset-plot"]}`}
+          alt="Asset Plot"
+          className="asset-plot"
+        />
+      ) : (
+        <LoadingSpinner />
+      )}
+      {!loading && result ? (
+        <img
+          src={`data:image/png;base64,${result["pnl-plot"]}`}
           alt="PnL Plot"
           className="pnl-plot"
         />
       ) : (
-        <p>Loading...</p>
+        <LoadingSpinner />
       )}
     </div>
   );
