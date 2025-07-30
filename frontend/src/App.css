@@ -66,8 +66,26 @@ body {
   text-align: center;
 }
 
-.pnl-plot {
+.pnl-plot,
+.asset-plot {
   max-width: 100%;
   border: 2px solid #444;
   border-radius: 8px;
+}
+
+.spinner {
+  width: 64px;
+  height: 64px;
+  border: 6px solid #a855f7; /* light purple */
+  border-top: 6px solid #ec4899; /* pink */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 10px #ec4899aa;
+  margin: auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
