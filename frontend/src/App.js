@@ -1,7 +1,7 @@
 // App structure for a React frontend UI to visualize correlation/cointegration heatmaps
 // and allow backtesting + plotting of a chosen stock pair.
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { AssetInput } from "./components/AssetInput";
 import { HeatmapDisplay } from "./components/HeatmapDisplay";
 import { PairDetails } from "./components/PairDetails";
@@ -32,15 +32,13 @@ export default function App() {
       <AssetInput onSubmit={handleHeatmapGeneration} />
       {loading ? (
         <LoadingSpinner />
-      ) : (
-        heatmaps && (
-          <HeatmapDisplay
-            assets={assets}
-            data={heatmaps}
-            onPairSelect={(pair) => setSelectedPair(pair)}
-          />
-        )
-      )}
+      ) : heatmaps ? (
+        <HeatmapDisplay
+          assets={assets}
+          data={heatmaps}
+          onPairSelect={(pair) => setSelectedPair(pair)}
+        />
+      ) : null}
       {selectedPair && <PairDetails pair={selectedPair} />}
     </div>
   );
