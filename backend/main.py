@@ -30,7 +30,8 @@ def get_heatmaps(tickers: str = Query(...)):
         "correlation": corr_img,
         "cointegration": coin_img,
         "corrMatrix": corr_matrix_cleaned.values.tolist(),
-        "coinMatrix": coin_matrix_cleaned.values.tolist()
+        "coinMatrix": coin_matrix_cleaned.values.tolist(),
+        "tickers": corr_matrix.columns.tolist()
     })
 
 @app.get("/backtest/")

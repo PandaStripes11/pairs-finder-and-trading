@@ -23,12 +23,10 @@ def get_bars(symbol, start, end, timeframe="1Day"):
     }
     response = requests.get(url, headers=HEADERS, params=params)
     data = response.json()
-    
-    if not data:
-        raise Exception(f"No data returned for {symbol}")
-    if "bars" not in data:
-        raise Exception(f"No bars returned for {symbol}: {data}")
 
+    if data.get("bars") is None:
+        return pd.DataFrame()
+    
     df = pd.DataFrame(data["bars"])
     df["t"] = pd.to_datetime(df["t"])
     df.set_index("t", inplace=True)
@@ -44,7 +42,9 @@ def fetch_pair_data(*tickers, start="2023-01-01", end=(yesterday_date.strftime("
 def fetch_multiple_data(tickers: list, start="2023-01-01", end=(yesterday_date.strftime("%Y-%m-%d"))):
     series = {}
     for ticker in tickers:
-        series[ticker] = get_bars(ticker, start, end)
+        tickerData = get_bars(ticker, start, end)
+        if not tickerData.empty:
+            series[ticker] = tickerData
 
     df = pd.DataFrame(series).dropna()
     return df

@@ -37,9 +37,9 @@ def find_cointegrated_pairs(tickers: list, start="2023-01-01", end=(yesterday_da
 def compute_correlation_matrix(tickers: list, start="2023-01-01", end=(yesterday_date.strftime("%Y-%m-%d"))):
     df = fetch_multiple_data(tickers, start=start, end=end).dropna()
 
-    corr_matrix = pd.DataFrame(index=tickers, columns=tickers, dtype=float)
+    corr_matrix = pd.DataFrame(index=df.columns, columns=df.columns, dtype=float)
 
-    for t1, t2 in itertools.combinations(tickers, 2):
+    for t1, t2 in itertools.combinations(df.columns, 2):
         corr = df[t1].corr(df[t2])
         corr_matrix.loc[t1, t2] = corr
         corr_matrix.loc[t2, t1] = corr
@@ -50,9 +50,9 @@ def compute_correlation_matrix(tickers: list, start="2023-01-01", end=(yesterday
 def compute_cointegration_matrix(tickers: list, start="2023-01-01", end=(yesterday_date.strftime("%Y-%m-%d"))):
     df = fetch_multiple_data(tickers, start=start, end=end).dropna()
 
-    pval_matrix = pd.DataFrame(index=tickers, columns=tickers, dtype=float)
+    pval_matrix = pd.DataFrame(index=df.columns, columns=df.columns, dtype=float)
 
-    for t1, t2 in itertools.combinations(tickers, 2):
+    for t1, t2 in itertools.combinations(df.columns, 2):
         stat, pval, _ = coint(df[t1], df[t2])
 
         pval_matrix.loc[t1, t2] = pval

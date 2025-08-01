@@ -36,7 +36,7 @@ def backtest(df, signals, correlation = 1):
 
 def trade_pair(stock_ticker1: str, stock_ticker2: str, show=True):
     df = fetch_data.fetch_pair_data(stock_ticker1, stock_ticker2)
-    df.to_csv("../data/raw-data.csv")
+    df.to_csv("./data/raw-data.csv")
 
     spread = df[stock_ticker1] - df[stock_ticker2]
     correlation = df[stock_ticker1].corr(df[stock_ticker2])
