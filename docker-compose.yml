@@ -10,3 +10,5 @@ services:
       - "3000:80"
     depends_on:
       - backend
+    environment:
+      - REACT_APP_BACKEND_API_BASE_URL=http://backend:8000
