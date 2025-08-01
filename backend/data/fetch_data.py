@@ -2,8 +2,6 @@ from datetime import date, timedelta
 import requests
 import pandas as pd
 
-import sys
-sys.path.append("/app")
 from config import ALPACA_API_KEY, ALPACA_SECRET_KEY, ALPACA_BASE_URL, ALPACA_DATA_URL
 
 HEADERS = {
