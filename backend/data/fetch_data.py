@@ -2,10 +2,11 @@ from datetime import date, timedelta
 import requests
 import pandas as pd
 
-import sys
 import os
-sys.path.append(os.path.relpath(".."))
-from config import ALPACA_API_KEY, ALPACA_SECRET_KEY, ALPACA_BASE_URL, ALPACA_DATA_URL
+ALPACA_API_KEY = os.environ["ALPACA_API_KEY"]
+ALPACA_SECRET_KEY = os.environ["ALPACA_SECRET_KEY"]
+ALPACA_BASE_URL = os.environ.get("ALPACA_BASE_URL", "https://paper-api.alpaca.markets/v2")
+ALPACA_DATA_URL = os.environ.get("ALPACA_DATA_URL", "https://data.alpaca.markets/v2")
 
 HEADERS = {
     "APCA-API-KEY-ID": ALPACA_API_KEY,
