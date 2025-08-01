@@ -54,8 +54,8 @@ export default function App() {
           deviates, the other moves with it. This strategy works by longing the
           stock that dips below the mean and shorting the other betting that
           both stocks will converge to a mean value. However, finding valid
-          pairs is difficult unless you have correlation and cointegration
-          values as shown here.
+          pairs is usually done with correlation and cointegration values to
+          test for stationarity.
         </p>
         <AssetInput onSubmit={handleHeatmapGeneration} />
         {loading ? (
