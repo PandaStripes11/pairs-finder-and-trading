@@ -2,7 +2,7 @@
 
 A full-stack application for identifying, visualizing, and backtesting pairs trading strategies using historical stock data from the Alpaca API.
 
-![App Screenshot](screenshot.png) <!-- Optional, add if you have one -->
+![App Screenshot](./backend/results/plots/screenshot.png) <!-- Optional, add if you have one -->
 
 ---
 
