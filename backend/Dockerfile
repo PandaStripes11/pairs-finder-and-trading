@@ -1,8 +1,8 @@
 FROM python:3.11
 
-ENV PYTHONPATH=/app
-
 WORKDIR /app
+
+ENV PYTHONPATH=/app
 
 COPY requirements.txt /app/
 
