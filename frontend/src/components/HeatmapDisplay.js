@@ -23,31 +23,6 @@ export function HeatmapDisplay({ assets, data, onPairSelect }) {
     [1.0, "#dddddd"], // White glow
   ];
 
-  const heatmapData = [
-    {
-      x: assets,
-      y: assets,
-      type: "heatmap",
-      colorscale: colorscale,
-      text: data.corrMatrix.map((row) => row.map((val) => val.toFixed(2))),
-      texttemplate: "%{text}",
-      hoverongaps: false,
-      hovertemplate: "%{y} & %{x}<br>%{z}<extra></extra>", // tooltip content
-      showscale: true,
-      hoverlabel: {
-        font: { color: "white" },
-        bgcolor: "#1f2937",
-        bordercolor: "#9333ea",
-      },
-    },
-  ];
-  let heatmapCorrDataObj = heatmapData;
-  heatmapCorrDataObj[0].z = data.corrMatrix;
-  const heatmapCorrData = useMemo(() => heatmapCorrDataObj, [assets, data]);
-  let heatmapCoinDataObj = heatmapData;
-  heatmapCoinDataObj[0].z = data.coinMatrix;
-  const heatmapCoinData = useMemo(() => heatmapCoinDataObj, [assets, data]);
-
   const heatmapLayout = {
     font: { color: "white" },
     plot_bgcolor: "#121212",
@@ -63,18 +38,36 @@ export function HeatmapDisplay({ assets, data, onPairSelect }) {
     },
     margin: { l: 80, r: 20, b: 80, t: 20 },
   };
-  let heatmapCorrLayoutObj = heatmapLayout;
-  heatmapCorrLayoutObj.title = "Correlation Heatmap";
-  const heatmapCorrLayout = useMemo(() => heatmapCorrLayoutObj, []);
-  let heatmapCoinLayoutObj = heatmapLayout;
-  heatmapCoinLayoutObj.title = "Cointegration Heatmap";
-  const heatmapCoinLayout = useMemo(() => heatmapCoinLayoutObj, []);
+  let heatmapCorrLayout = heatmapLayout;
+  heatmapCorrLayout.title = "Correlation Heatmap";
+  let heatmapCoinLayout = heatmapLayout;
+  heatmapCoinLayout.title = "Cointegration Heatmap";
 
   return (
     <div className="heatmap-container">
       <h2>Correlation</h2>
       <Plot
-        data={heatmapCorrData}
+        data={[
+          {
+            z: data.corrMatrix,
+            x: assets,
+            y: assets,
+            type: "heatmap",
+            colorscale: colorscale,
+            text: data.corrMatrix.map((row) =>
+              row.map((val) => val.toFixed(2))
+            ),
+            texttemplate: "%{text}",
+            hoverongaps: false,
+            hovertemplate: "%{y} & %{x}<br>%{z}<extra></extra>", // tooltip content
+            showscale: true,
+            hoverlabel: {
+              font: { color: "white" },
+              bgcolor: "#1f2937",
+              bordercolor: "#9333ea",
+            },
+          },
+        ]}
         layout={heatmapCorrLayout}
         onClick={(event) => {
           const point = event.points[0];
@@ -87,7 +80,27 @@ export function HeatmapDisplay({ assets, data, onPairSelect }) {
 
       <h2>Cointegration P-Values</h2>
       <Plot
-        data={heatmapCoinData}
+        data={[
+          {
+            z: data.coinMatrix,
+            x: assets,
+            y: assets,
+            type: "heatmap",
+            colorscale: colorscale,
+            text: data.coinMatrix.map((row) =>
+              row.map((val) => val.toFixed(2))
+            ),
+            texttemplate: "%{text}",
+            hoverongaps: false,
+            hovertemplate: "%{y} & %{x}<br>%{z}<extra></extra>", // tooltip content
+            showscale: true,
+            hoverlabel: {
+              font: { color: "white" },
+              bgcolor: "#1f2937",
+              bordercolor: "#9333ea",
+            },
+          },
+        ]}
         layout={heatmapCoinLayout}
         onClick={(event) => {
           const point = event.points[0];

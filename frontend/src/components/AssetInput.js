@@ -5,7 +5,10 @@ export function AssetInput({ onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const tickers = input.split(",").map((t) => t.trim().toUpperCase());
+    let tickers = input.split(",").map((t) => t.trim().toUpperCase());
+    if (tickers.length > 20) {
+      tickers = tickers.slice(0, 20);
+    }
     onSubmit(tickers);
   };
 

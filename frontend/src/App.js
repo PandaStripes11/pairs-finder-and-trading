@@ -7,6 +7,7 @@ import { AssetInput } from "./components/AssetInput";
 import { HeatmapDisplay } from "./components/HeatmapDisplay";
 import { PairDetails } from "./components/PairDetails";
 import LoadingSpinner from "./components/LoadingSpinner";
+import { Footer } from "./components/Footer";
 import "./App.css";
 
 export default function App() {
@@ -18,12 +19,15 @@ export default function App() {
 
   const handleHeatmapGeneration = async (tickers) => {
     setLoading(true);
-    setAssets(tickers);
     const res = await fetch(
       `${BASE_URL}/heatmaps?tickers=${tickers.join(",")}`
     );
     const data = await res.json();
     setHeatmaps(data);
+    setAssets(data.tickers);
+    if (tickers !== data.tickers) {
+      alert("Invalid ticker symbols");
+    }
     setLoading(false);
   };
 
@@ -43,6 +47,16 @@ export default function App() {
       </svg>
       <div className="app">
         <h1 className="title">Analyze Stocks</h1>
+        <p>
+          This generates a correlation and cointegration heatmap for every pair
+          combination of stocks listed. Pairs trading works by finding stocks
+          that tend to move together and mean-revert. So when one stock moves or
+          deviates, the other moves with it. This strategy works by longing the
+          stock that dips below the mean and shorting the other betting that
+          both stocks will converge to a mean value. However, finding valid
+          pairs is difficult unless you have correlation and cointegration
+          values as shown here.
+        </p>
         <AssetInput onSubmit={handleHeatmapGeneration} />
         {loading ? (
           <LoadingSpinner />
@@ -55,6 +69,7 @@ export default function App() {
         ) : null}
         {selectedPair && <PairDetails pair={selectedPair} />}
       </div>
+      <Footer />
     </>
   );
 }
