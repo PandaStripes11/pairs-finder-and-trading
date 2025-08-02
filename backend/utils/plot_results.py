@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+mpl.use('Agg')
 import numpy as np
 from data import fetch_data
 from utils.pairs_tester import *

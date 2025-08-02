@@ -18,7 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/heatmaps/")
+@app.get("/heatmaps")
 def get_heatmaps(tickers: str = Query(...)):
     tickers = tickers.split(",")
     tickers = [ticker.strip() for ticker in tickers]
@@ -35,7 +35,7 @@ def get_heatmaps(tickers: str = Query(...)):
         "tickers": corr_matrix.columns.tolist()
     })
 
-@app.get("/backtest/")
+@app.get("/backtest")
 def get_heatmaps(tickers: str = Query(...)):
     tickers = tickers.split(",")
     tickers = [ticker.strip() for ticker in tickers]
