@@ -2,6 +2,10 @@
 
 A full-stack application for identifying, visualizing, and backtesting pairs trading strategies using historical stock data from the Alpaca API.
 
+### 🌐 Live Demo
+
+🔗 [Check out the hosted app on Render](https://pairs-trading-analyzer.onrender.com/)
+
 ![App Screenshot](./backend/results/plots/screenshot.png) <!-- Optional, add if you have one -->
 
 ---
@@ -137,8 +141,8 @@ A full-stack application for identifying, visualizing, and backtesting pairs tra
 ## 📬 Contact
 
 Created by **Donte Truong**
-Email: [dontetruong@gmail.com](dontetruong@gmail.com)
-LinkedIn: [https://www.linkedin.com/in/donte-truong-a95856363/](https://www.linkedin.com/in/donte-truong-a95856363/)
+📧 Email: [dontetruong@gmail.com](dontetruong@gmail.com)
+🔗 LinkedIn: [https://www.linkedin.com/in/donte-truong-a95856363/](https://www.linkedin.com/in/donte-truong-a95856363/)
 
 ---
 
